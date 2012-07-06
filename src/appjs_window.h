@@ -38,6 +38,9 @@ class Window : public node::ObjectWrap {
   DEFINE_CPP_METHOD(RunInBrowser);
   DEFINE_CPP_METHOD(SendSync);
 
+  DEFINE_CPP_METHOD(SetMaximize);
+  DEFINE_CPP_METHOD(SetMinimize);
+
 };
 
 } /* appjs */

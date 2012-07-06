@@ -22,6 +22,9 @@ public:
   void setV8Handle(v8::Handle<v8::Object>);
   v8::Handle<v8::Object> getV8Handle();
 
+  void SetMaximize(bool is_maximize);
+  void SetMinimize(bool is_minimize);
+
   static int ScreenWidth();
   static int ScreenHeight();
 
