@@ -36,6 +36,8 @@ class Window : public node::ObjectWrap {
   DEFINE_CPP_METHOD(Hide);
   DEFINE_CPP_METHOD(Destroy);
   DEFINE_CPP_METHOD(RunInBrowser);
+  DEFINE_CPP_METHOD(SetMaximize);
+  DEFINE_CPP_METHOD(SetMinimize);
 
 };
 

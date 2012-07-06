@@ -24,6 +24,8 @@ void Window::Init () {
   DEFINE_PROTOTYPE_METHOD("hide",Hide);
   DEFINE_PROTOTYPE_METHOD("destroy",Destroy);
   DEFINE_PROTOTYPE_METHOD("runInBrowser",RunInBrowser);
+  DEFINE_PROTOTYPE_METHOD("setMaximize",SetMaximize);
+  DEFINE_PROTOTYPE_METHOD("setMinimize",SetMinimize);
 
   END_CONSTRUCTOR();
 }
@@ -113,6 +115,32 @@ Handle<Value> Window::RunInBrowser(const Arguments& args) {
     char* script = V8StringToFunctionChar(args[0]->ToString());
     g_handler->GetBrowser()->GetMainFrame()->ExecuteJavaScript(script,"",0);
   }
+
+  return scope.Close(args.This());
+}
+
+Handle<Value> Window::SetMaximize(const Arguments& args) {
+  HandleScope scope;
+
+  if(!args[0]->IsBoolean())
+    THROW_BAD_ARGS;
+
+  MainWindow *obj = ObjectWrap::Unwrap<MainWindow> (args.This());
+
+  obj->SetMaximize(args[0]->BooleanValue());
+
+  return scope.Close(args.This());
+}
+
+Handle<Value> Window::SetMinimize(const Arguments& args) {
+  HandleScope scope;
+
+  if(!args[0]->IsBoolean())
+    THROW_BAD_ARGS;
+
+  MainWindow *obj = ObjectWrap::Unwrap<MainWindow> (args.This());
+
+  obj->SetMinimize(args[0]->BooleanValue());
 
   return scope.Close(args.This());
 }

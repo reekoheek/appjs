@@ -19,6 +19,8 @@ public:
   void show();
   void hide();
   void destroy();
+  void SetMaximize(bool is_maximize);
+  void SetMinimize(bool is_minimize);
 
   static int ScreenWidth();
   static int ScreenHeight();
