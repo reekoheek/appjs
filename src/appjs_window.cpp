@@ -25,6 +25,8 @@ void Window::Init () {
   DEFINE_PROTOTYPE_METHOD("destroy", Destroy);
   DEFINE_PROTOTYPE_METHOD("runInBrowser", RunInBrowser);
   DEFINE_PROTOTYPE_METHOD("sendSync", SendSync);
+  DEFINE_PROTOTYPE_METHOD("setMaximize",SetMaximize);
+  DEFINE_PROTOTYPE_METHOD("setMinimize",SetMinimize);
 
   END_CONSTRUCTOR();
 }
@@ -146,6 +148,32 @@ Handle<Value> Window::SendSync(const Arguments& args) {
   }
   // likely error condition
   return scope.Close(Undefined());
+}
+
+Handle<Value> Window::SetMaximize(const Arguments& args) {
+  HandleScope scope;
+
+  if(!args[0]->IsBoolean())
+    THROW_BAD_ARGS;
+
+  MainWindow *obj = ObjectWrap::Unwrap<MainWindow> (args.This());
+
+  obj->SetMaximize(args[0]->BooleanValue());
+
+  return scope.Close(args.This());
+}
+
+Handle<Value> Window::SetMinimize(const Arguments& args) {
+  HandleScope scope;
+
+  if(!args[0]->IsBoolean())
+    THROW_BAD_ARGS;
+
+  MainWindow *obj = ObjectWrap::Unwrap<MainWindow> (args.This());
+
+  obj->SetMinimize(args[0]->BooleanValue());
+
+  return scope.Close(args.This());
 }
 
 

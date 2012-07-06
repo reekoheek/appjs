@@ -24,6 +24,8 @@ MainWindow::MainWindow (char* url, Settings* settings) {
   bool show_resize_grip = settings->getBoolean("showResizeGrip",false);
   bool auto_resize = settings->getBoolean("autoResize",false);
   bool fullscreen = settings->getBoolean("fullscreen",false);
+  bool maximize = settings->getBoolean("maximize",false);
+  bool minimize = settings->getBoolean("minimize",false);
 
   GtkWidget* window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 
@@ -68,6 +70,14 @@ MainWindow::MainWindow (char* url, Settings* settings) {
 
   if( fullscreen ) {
     gtk_window_fullscreen(GTK_WINDOW(window));
+  }
+
+  if ( maximize ) {
+    gtk_window_maximize(GTK_WINDOW(window));
+  }
+
+  if ( minimize ) {
+    gtk_window_iconify(GTK_WINDOW(window));
   }
 
   if( !resizable ) {
@@ -118,6 +128,28 @@ void MainWindow::hide() {
     NODE_ERROR("Browser window not available or not ready.");
 
   gtk_widget_hide(GTK_WIDGET(window));
+};
+
+void MainWindow::SetMaximize(bool is_maximize) {
+  if (!g_handler.get() || !g_handler->GetBrowserHwnd())
+    NODE_ERROR("Browser window not available or not ready.");
+
+  if (is_maximize) {
+    gtk_window_maximize(GTK_WINDOW(window));
+  } else {
+    gtk_window_unmaximize(GTK_WINDOW(window));
+  }
+};
+
+void MainWindow::SetMinimize(bool is_minimize) {
+  if (!g_handler.get() || !g_handler->GetBrowserHwnd())
+    NODE_ERROR("Browser window not available or not ready.");
+
+  if (is_minimize) {
+    gtk_window_iconify(GTK_WINDOW(window));
+  } else {
+    gtk_window_deiconify(GTK_WINDOW(window));
+  }
 };
 
 int MainWindow::ScreenWidth() {
