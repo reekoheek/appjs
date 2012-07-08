@@ -22,10 +22,17 @@ window.on("create",function(){
   console.log("Window Created");
   // Make window visible
   this.show();
+  setTimeout(function() {
+      this.setMinimize(true);
+  }, 1000);
 });
 
 window.on("ready",function(){
   console.log("Page loaded.");
+});
+
+window.on('minimize',function(){
+  console.log("minimized");
 });
 
 window.on('close',function(){

@@ -19,6 +19,29 @@ void destroy_handler(GtkWidget* widget, MainWindow* window) {
   node::MakeCallback(handle,"emit",argc,argv);
 }
 
+void window_state_event_handler(GtkWidget* widget, GdkEventWindowState *event, MainWindow* window) {
+  const int argc = 1;
+  Handle<Object> handle = window->getV8Handle();
+  
+  if(event->changed_mask & GDK_WINDOW_STATE_MAXIMIZED){
+    if (event->new_window_state & GDK_WINDOW_STATE_MAXIMIZED){
+      Handle<Value> argv[argc] = {String::New("maximized")};
+      node::MakeCallback(handle,"emit",argc,argv);
+    } else {
+      Handle<Value> argv[argc] = {String::New("unmaximized")};
+      node::MakeCallback(handle,"emit",argc,argv);
+    } 
+  } else if(event->changed_mask & GDK_WINDOW_STATE_ICONIFIED){
+    if (event->new_window_state & GDK_WINDOW_STATE_ICONIFIED){
+      Handle<Value> argv[argc] = {String::New("minimized")};
+      node::MakeCallback(handle,"emit",argc,argv);
+    } else {
+      Handle<Value> argv[argc] = {String::New("unminimized")};
+      node::MakeCallback(handle,"emit",argc,argv);
+    } 
+  }
+}
+
 MainWindow::MainWindow (char* url, Settings* settings) {
 
   int width = settings->getNumber("width",800);
@@ -104,6 +127,9 @@ MainWindow::MainWindow (char* url, Settings* settings) {
 
   g_signal_connect(G_OBJECT(window), "destroy",
                    G_CALLBACK(destroy_handler), this);
+
+  g_signal_connect(G_OBJECT(window), "window-state-event",
+                   G_CALLBACK(window_state_event_handler), this);
 
   this->window = window;
   g_object_set_data(G_OBJECT(window),"mainwindow",this);

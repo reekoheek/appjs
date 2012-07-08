@@ -26,7 +26,7 @@ var windowSettings = {
     big: './assets/icons/48.png', // 48x48
     bigger: './assets/icons/64.png' // 64x64 or 128x128
   },
-  maximize: true
+  // minimize: true
 };
 
 /**
@@ -37,8 +37,13 @@ var windowSettings = {
 var window = app.createWindow("http://appjs/",windowSettings);
 
 window.on("create",function(){
+  var that = this;
   console.log("Window created");
   window.show();
+
+  // setTimeout(function() {
+  //   that.setMinimize(true);
+  // }, 1000);
 });
 
 window.on("ready",function(){
@@ -47,6 +52,14 @@ window.on("ready",function(){
 
 window.on("close",function(){
   console.log("Window closed");
+});
+
+window.on("maximized",function(){
+  console.log("Window maximized");
+});
+
+window.on("unmaximized",function(){
+  console.log("Window unmaximized");
 });
 
 app.on("exit",function(){
